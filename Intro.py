@@ -4,7 +4,7 @@ st.title("Intro")
 st.write("# YouTube Data Analyser")
 st.markdown(
     """
-    This app is built on account of an online course project.
+    This project is done for an online course.
     
     ### Problem statement:
     
