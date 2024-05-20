@@ -26,7 +26,6 @@ class yt:
                 'username': r['items'][0]['snippet']['customUrl'],
                 'published': r['items'][0]['snippet']['publishedAt'],
                 'thumbnail': r['items'][0]['snippet']['thumbnails']['high']['url'],
-                'country': r['items'][0]['snippet']['country'],
                 'videos_id': r['items'][0]['contentDetails']['relatedPlaylists']['uploads'],
                 'view_count': int(r['items'][0]['statistics']['viewCount']),
                 'sub_count': int(r['items'][0]['statistics']['subscriberCount']),
@@ -71,7 +70,7 @@ class yt:
                 'duration': i['contentDetails']['duration'].replace('PT', ''),#.split('M')[0]
                 'view_count': int(i['statistics']['viewCount']),
                 'like_count': int(i['statistics']['likeCount']),
-                'comment_count': int(i['statistics']['commentCount']),
+                'comment_count': int(i['statistics'].get('commentCount', 0)),
             })
 
         return videos

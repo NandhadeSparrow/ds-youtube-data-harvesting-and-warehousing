@@ -49,7 +49,7 @@ def scrape():
             status_text = st.sidebar.empty()
             for j in range(len(videos)):
                 i = videos[j]
-                res = youtube.getComments(i['contentDetails']['videoId'])
+                res = youtube.getComments(i['video_id'])
                 ytComments.extend(res)
                 progress_bar.progress((j+1)*2)
                 status_text.text(f'{(j+1)*2} % Complete')

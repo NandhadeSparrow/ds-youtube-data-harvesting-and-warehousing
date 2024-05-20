@@ -8,10 +8,10 @@ mdb_appName=
 mdb_dbName=
 
 # aws rds postgre creds
-aws_db_usr=
-aws_db_pwd=
-aws_db_endpoint=
-aws_db_dbname=
+sql_db_usr=
+sql_db_pwd=
+sql_db_endpoint=
+sql_db_dbname=
 
 # collection names
 db_channels_coll_name=

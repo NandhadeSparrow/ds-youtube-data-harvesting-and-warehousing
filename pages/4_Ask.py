@@ -14,8 +14,6 @@ session = sql()
 
 
 st.markdown('## Get answers for questions:')
-st.write('These questions were asked in project description.')
-st.write('Many of the querying and processiong done in sqlalchemy instead of pandas for practice.')
 
 
 with st.expander("1 - What are the names of all the videos and their corresponding channels?"):
@@ -96,18 +94,15 @@ with st.expander("6 - What is the total number of likes and dislikes for each vi
 
 with st.expander("7 - What is the total number of views for each channel, and what are their corresponding channel names?"):
     
-    result = session.query(
-        v.title.label('Video Name'), v.view_count.label('Views'), ch.channel_name,
-        func.concat('https://www.youtube.com/watch?v=', v.video_id).label('Link')
-    ).join(ch, v.channel_id == ch.channel_id)
+    result = session.query(ch.channel_name, ch.view_count)
     
     df = DataFrame([i for i in result])
     if '_sa_instance_state' in df.columns:
         df.drop('_sa_instance_state', axis=1)
-    df_with_link(df, 'Video Name', 'Link')
+    st.write(df)
 
 
-with st.expander("8 - What are the names of all the channels that have published videos in february month?"):
+with st.expander("8 - What are the names of all the channels that have published videos in last month?"):
     
     result = session.query(
         ch.channel_name.label('Channel'), v.published.label('Published'), 

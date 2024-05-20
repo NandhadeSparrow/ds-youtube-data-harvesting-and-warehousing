@@ -30,6 +30,7 @@ def reset_sql():
     session.query(YtChannelModel).delete()
     session.query(YtVideosModel).delete()
     session.query(YtCommentsModel).delete()
+    session.commit()
 
 
 def save(selected_channels, selected_videos, selected_comments):
@@ -41,19 +42,6 @@ def save(selected_channels, selected_videos, selected_comments):
     session.add_all(videos)
     session.add_all(comments)
     session.commit()
-    entries = session.query(YtChannelModel).all()
-    df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
-    st.markdown('## From SQL DB')
-    st.markdown('### Channels')
-    st.write(df)
-    entries = session.query(YtVideosModel).all()
-    df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
-    st.markdown('### Videos')
-    st.write(df)
-    entries = session.query(YtCommentsModel).all()
-    df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
-    st.markdown('### Comments')
-    st.write(df)
 
 
 selected_ch = st.multiselect(
@@ -78,15 +66,33 @@ else:
     st.markdown('### Comments')
     st.write(DataFrame(selected_comments))
 
-    st.write('This button copies data from MongoDB to AWS RDS PostgreSQL Database')
+    st.write('This button copies data from MongoDB to SQL Database')
     if st.button('Save in SQL Database'):    
         save(selected_channels, selected_videos, selected_comments)
+
         st.success("All entries have been saved in the tables.")
 
-    st.write('This button deletes all entries from all tables in AWS RDS PostgreSQL Database')
-    if st.button("Delete All Entries in SQL Database"):
-        reset_sql()
-        st.success("All entries have been deleted from the tables.")
 
+st.session_state['refresh'] = 'init'
+# if st.session_state['refresh']:
+#     st.markdown('## Data in SQL Database:')
+#     entries = session.query(YtChannelModel).all()
+#     df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
+#     st.markdown('### Channels')
+#     st.write(df)
+#     entries = session.query(YtVideosModel).all()
+#     df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
+#     st.markdown('### Videos')
+#     st.write(df)
+#     entries = session.query(YtCommentsModel).all()
+#     df = DataFrame([i.__dict__ for i in entries]).drop('_sa_instance_state', axis=1)
+#     st.markdown('### Comments')
+#     st.write(df)
+
+st.write('This button deletes all entries from all tables in SQL Database')
+if st.button("Delete All Entries in SQL Database"):
+    reset_sql()
+    st.success("All entries have been deleted from the tables.")
+    st.session_state['refresh'] = 'reset'
 
 

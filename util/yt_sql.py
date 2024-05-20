@@ -1,6 +1,6 @@
 from sqlalchemy import (
     create_engine, Column, Integer, String, DateTime,
-    MetaData
+    MetaData, BigInteger
     )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -9,18 +9,22 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-aws_db_usr = os.environ.get('aws_db_usr') 
-aws_db_pwd = os.environ.get('aws_db_pwd')
-aws_db_endpoint = os.environ.get('aws_db_endpoint') 
-aws_db_dbname = os.environ.get('aws_db_dbname')
+username = os.environ.get('sql_db_usr') 
+password = os.environ.get('sql_db_pwd')
+hostname = 'localhost'
+port = os.environ.get('sql_db_endpoint') 
+database = os.environ.get('sql_db_dbname')
 
 db_channels_coll_name = os.environ.get('db_channels_coll_name')
 db_videos_coll_name = os.environ.get('db_videos_coll_name')
 db_comments_coll_name = os.environ.get('db_comments_coll_name')
 
+# postgre
+db_url = f'postgresql+psycopg2://{username}:{password}@{hostname}:{port}/{database}'
+# mysqlclient
+# db_url = f'mysql+mysqldb://{username}:{password}@{hostname}/{database}'
 
-# SQLAlchemy database URL format for connecting to AWS RDS PostgreSQL
-db_url = f'postgresql://{aws_db_usr}:{aws_db_pwd}@{aws_db_endpoint}/{aws_db_dbname}'
+
 
 # Create engine
 engine = create_engine(db_url)
@@ -40,11 +44,11 @@ class YtChannelModel(Base):
     username = Column(String)
     published = Column(DateTime)
     thumbnail = Column(String)
-    country = Column(String)
+    # country = Column(String)
     videos_id = Column(String)
-    view_count = Column(Integer)
-    sub_count = Column(Integer)
-    vid_count = Column(Integer)
+    view_count = Column(BigInteger)
+    sub_count = Column(BigInteger)
+    vid_count = Column(BigInteger)
 
 class YtVideosModel(Base):
     __tablename__ = db_videos_coll_name
