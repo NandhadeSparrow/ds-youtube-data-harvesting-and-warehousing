@@ -30,7 +30,7 @@ A Streamlit application that allows users to access and analyze data from multip
 
 Clone this repository and ```cd``` into that directory
 ``` 
-git clone https://github.com/NandhadeSparrow/ds-youtube-data-harvesting-and-warehousing.git 
+git clone https://github.com/NandhadeSparrow/yt-data-harvest.git 
 cd ds-youtube-data-harvesting-and-warehousing
 ```
 
